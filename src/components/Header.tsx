@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-blue flex items-center justify-center shadow-lg shadow-primary-500/20">
-            <ShieldAlert className="w-6 h-6 text-white" />
+            <img src="/ClueVerse Logo.png" alt="ClueVerse Logo" className="w-6 h-6" />
           </div>
           <div>
             <h1 className="text-xl font-extrabold tracking-wider gradient-text flex items-center gap-1.5">
