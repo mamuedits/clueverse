@@ -35,25 +35,25 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="w-full glass-panel sticky top-0 z-40 px-4 py-3 border-b border-white/10">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <header className="w-full glass-panel sticky top-0 z-40 px-2 py-2 sm:px-4 sm:py-3 border-b border-white/10">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-hidden">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <Image src={logo} alt="ClueVerse Logo" className="pt-1 drop-shadow-[0_0_12px_rgba(139,92,246,0.8)]" width={50} height={50} />
+          <Image src={logo} alt="ClueVerse Logo" className="sm:w-[50px] sm:h-[50px] pt-1 drop-shadow-[0_0_12px_rgba(139,92,246,0.8)]" width={50} height={50} />
           <div>
-            <h1 className="text-xl font-extrabold tracking-wider gradient-text flex items-center gap-1.5">
+            <h1 className="text-base sm:text-xl font-extrabold tracking-wider gradient-text flex items-center gap-1">
               ClueVerse <Sparkles className="w-4 h-4 text-accent-cyan inline" />
             </h1>
-            <p className="text-xs text-gray-400 font-medium">Secret Word Party Game</p>
+            <p className="hidden sm:block text-xs text-gray-400 font-medium">Secret Word Party Game</p>
           </div>
         </div>
 
         {/* Room Info & Controls */}
         <div className="flex items-center gap-3">
           {roomCode && (
-            <div className="flex items-center gap-2 bg-surface/90 border border-primary-500/30 rounded-xl px-3 py-1.5 shadow-sm">
+            <div className="flex items-center gap-1 bg-surface/90 border border-primary-500/30 rounded-xl px-2 py-1 sm:px-3 sm:py-1.5">
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Room:</span>
-              <span className="text-base font-black tracking-widest text-primary-400 font-mono">{roomCode}</span>
+              <span className="text-xs sm:text-base font-black tracking-wide font-mono">{roomCode}</span>
               <button
                 onClick={handleCopyCode}
                 className="p-1 hover:bg-white/10 rounded-lg text-gray-300 hover:text-white transition-colors"
@@ -74,10 +74,14 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mute Toggle */}
           <button
             onClick={handleToggleMute}
-            className="p-2 rounded-xl glass-panel hover:bg-white/10 text-gray-300 hover:text-white transition-colors"
-            title={isMuted ? 'Unmute Sounds' : 'Mute Sounds'}
+            className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl glass-panel hover:bg-white/10 text-gray-300 hover:text-white transition-colors flex items-center justify-center"
+            title={isMuted ? "Unmute Sounds" : "Mute Sounds"}
           >
-            {isMuted ? <VolumeX className="w-5 h-5 text-accent-rose" /> : <Volume2 className="w-5 h-5 text-primary-400" />}
+            {isMuted ? (
+              <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-accent-rose" />
+            ) : (
+              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary-400" />
+            )}
           </button>
 
           {/* Connection Indicator */}
