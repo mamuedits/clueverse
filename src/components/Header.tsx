@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Volume2, VolumeX, Copy, Check, Users, ShieldAlert, Sparkles } from 'lucide-react';
 import { soundManager } from '@/lib/audio';
+import Image from "next/image";
+import logo from "../ClueVerse logo.png";
 
 interface HeaderProps {
   roomCode?: string;
@@ -37,9 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-blue flex items-center justify-center shadow-lg shadow-primary-500/20">
-            <img src="/ClueVerse Logo.png" alt="ClueVerse Logo" className="w-6 h-6" />
-          </div>
+          <Image src={logo} alt="ClueVerse Logo" className="pt-1 drop-shadow-[0_0_12px_rgba(139,92,246,0.8)]" width={50} height={50} />
           <div>
             <h1 className="text-xl font-extrabold tracking-wider gradient-text flex items-center gap-1.5">
               ClueVerse <Sparkles className="w-4 h-4 text-accent-cyan inline" />
