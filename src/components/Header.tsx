@@ -39,19 +39,19 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-hidden">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <Image src={logo} alt="ClueVerse Logo" className="sm:w-[50px] sm:h-[50px] pt-1 drop-shadow-[0_0_12px_rgba(139,92,246,0.8)]" width={50} height={50} />
+          <Image src={logo} alt="ClueVerse Logo" className="sm:w-[50px] sm:h-[50px] pt-1" width={50} height={50} />
           <div>
             <h1 className="text-base sm:text-xl font-extrabold tracking-wider gradient-text flex items-center gap-1">
-              ClueVerse <Sparkles className="w-4 h-4 text-accent-cyan inline" />
+              ClueVerse
             </h1>
-            <p className="hidden sm:block text-xs text-gray-400 font-medium">Secret Word Party Game</p>
+            <p className="sm:block text-xs text-gray-400 font-medium">Imposter Game</p>
           </div>
         </div>
 
         {/* Room Info & Controls */}
         <div className="flex items-center gap-3">
           {roomCode && (
-            <div className="flex items-center gap-1 bg-surface/90 border border-primary-500/30 rounded-xl px-2 py-1 sm:px-3 sm:py-1.5">
+            <div className="flex items-center gap-1 mt-2 bg-surface/90 border border-primary-500/30 rounded-xl px-2 py-1 sm:px-3 sm:py-1.5">
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Room:</span>
               <span className="text-xs sm:text-base font-black tracking-wide font-mono">{roomCode}</span>
               <button
@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           {roomCode && (
-            <div className="hidden sm:flex items-center gap-1.5 bg-surface/80 border border-white/10 px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300">
+            <div className="hidden sm:flex items-center mt-2 gap-1.5 bg-surface/80 border border-white/10 px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300">
               <Users className="w-4 h-4 text-accent-cyan" />
               <span>{playerCount}/{maxPlayers}</span>
             </div>
@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mute Toggle */}
           <button
             onClick={handleToggleMute}
-            className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl glass-panel hover:bg-white/10 text-gray-300 hover:text-white transition-colors flex items-center justify-center"
+            className="p-1.5 sm:p-2 rounded-lg mt-2 sm:rounded-xl glass-panel hover:bg-white/10 text-gray-300 hover:text-white transition-colors flex items-center justify-center"
             title={isMuted ? "Unmute Sounds" : "Mute Sounds"}
           >
             {isMuted ? (
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Connection Indicator */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
+          <div className="flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
             <span
               className={`w-2.5 h-2.5 rounded-full ${
                 isConnected ? 'bg-accent-emerald shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-accent-rose animate-ping'
