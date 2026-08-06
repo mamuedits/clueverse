@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Volume2, VolumeX, Copy, Check, Users, ShieldAlert, Sparkles } from 'lucide-react';
 import { soundManager } from '@/lib/audio';
 import Image from "next/image";
-import logo from "../clueVerse-logo.png";
+import logo from "../clueverse-logo.png";
 
 interface HeaderProps {
   roomCode?: string;
