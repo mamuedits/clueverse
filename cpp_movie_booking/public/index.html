@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ DSA Movie Booking System | Web Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">C+</div>
+                <div class="brand-text">
+                    <h2>CINE-PLUS</h2>
+                    <span class="badge cpp-badge">Book Cinemas Online</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="movies-tab">
+                    <span class="nav-icon">🎬</span> Now Showing
+                </button>
+                <button class="nav-btn" data-tab="booking-tab">
+                    <span class="nav-icon">🎟️</span> Seat Booking
+                </button>
+                <button class="nav-btn" data-tab="history-tab">
+                    <span class="nav-icon">📜</span> Booking History
+                </button>
+                <button class="nav-btn" data-tab="queue-stack-tab">
+                    <span class="nav-icon">⚡</span> Queue & Undo Stack
+                </button>
+                <button class="nav-btn" data-tab="dsa-tab">
+                    <span class="nav-icon">🧠</span> Live DSA Inspector
+                </button>
+                <button class="nav-btn" data-tab="admin-tab">
+                    <span class="nav-icon">📊</span> Admin & Revenue
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot"></span> Server Active (Node.js)
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1 id="page-title">Now Showing Movies</h1>
+                    <p id="page-subtitle">Enjoy your movie-time with CINE-PLUS!</p>
+                </div>
+            </header>
+
+            <!-- TAB 1: MOVIES CATALOG -->
+            <section id="movies-tab" class="tab-content active">
+                <div class="controls-bar glass-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="movie-search" placeholder="Search movies">
+                    </div>
+                    <div class="sort-controls">
+                        <label for="sort-select">Sort Movies</label>
+                        <select id="sort-select" class="custom-select">
+                            <option value="id">By ID</option>
+                            <option value="title">By Name</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="movies-grid" id="movies-container">
+                    <!-- Movie Cards dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- TAB 2: SEAT BOOKING INTERFACE -->
+            <section id="booking-tab" class="tab-content">
+                <div class="booking-layout">
+                    <!-- Seat Map Container -->
+                    <div class="seat-map-section glass-card">
+                        <div class="movie-selector-header">
+                            <div class="movie-select-group">
+                                <label for="booking-movie-select" class="select-label">Select Movie:</label>
+                                <select id="booking-movie-select" class="custom-select movie-select-dropdown">
+                                    <!-- Dynamic movie options -->
+                                </select>
+                            </div>
+                            <div class="showtime-pills" id="showtime-pills-container">
+                                <!-- Showtimes rendered here -->
+                            </div>
+                        </div>
+
+                        <!-- 2D Seat Grid (16 Rows A-P x 30 Cols) -->
+                        <div class="seat-grid" id="seat-grid">
+                            <!-- Seat Matrix rendered here -->
+                        </div>
+
+                        <!-- Cinema Screen Below Seat Grid -->
+                        <div class="cinema-screen-container mt-4">
+                            <div class="cinema-screen">CINEMA SCREEN THIS WAY 🔻</div>
+                            <div class="screen-light"></div>
+                        </div>
+
+                        <!-- Seat Legend -->
+                        <div class="seat-legend">
+                            <div class="legend-item"><span class="seat-sample available"></span> Available</div>
+                            <div class="legend-item"><span class="seat-sample selected"></span> Selected</div>
+                            <div class="legend-item"><span class="seat-sample booked"></span> Booked</div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Form Sidebar -->
+                    <div class="booking-summary-section glass-card">
+                        <h3>Booking Summary</h3>
+                        <form id="booking-form">
+                            <div class="form-group">
+                                <label for="cust-name">Customer Name</label>
+                                <input type="text" id="cust-name" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cust-phone">Phone Number</label>
+                                <input type="tel" id="cust-phone" placeholder="555-0199" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cust-email">Email Address</label>
+                                <input type="email" id="cust-email" placeholder="user@example.com" required>
+                            </div>
+
+                            <div class="summary-details">
+                                <div class="summary-row">
+                                    <span>Movie:</span>
+                                    <strong id="summary-movie">-</strong>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Showtime:</span>
+                                    <strong id="summary-showtime">-</strong>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Selected Seats:</span>
+                                    <strong id="summary-seats">None</strong>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Ticket Price:</span>
+                                    <strong id="summary-price">$0.00</strong>
+                                </div>
+                                <hr class="divider">
+                                <div class="summary-row total">
+                                    <span>Total Amount:</span>
+                                    <strong id="summary-total">$0.00</strong>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block" id="btn-confirm-booking" disabled>
+                                ⚡ Submit to Booking Queue
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: BOOKING HISTORY & PRINT TICKET -->
+            <section id="history-tab" class="tab-content">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>All Booking History</h2>
+                        <div class="search-box">
+                            <input type="text" id="ticket-search-input" placeholder="Search by Ticket ID (e.g. BK1001)...">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Customer</th>
+                                    <th>Movie</th>
+                                    <th>Showtime</th>
+                                    <th>Seats</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <!-- Booking rows rendered here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: QUEUE & STACK OPERATIONS -->
+            <section id="queue-stack-tab" class="tab-content">
+                <div class="dual-panel">
+                    <!-- Queue Panel -->
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <div>
+                                <h2>Pending Booking Queue (FIFO)</h2>
+                                <p class="text-muted">First-In First-Out Queue processing ticket orders</p>
+                            </div>
+                            <span class="badge info-badge" id="queue-count-badge">Size: 0</span>
+                        </div>
+                        <div class="dsa-stream" id="queue-stream">
+                            <!-- Queue Nodes rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Stack Panel -->
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <div>
+                                <h2>Cancelled Tickets Stack (LIFO)</h2>
+                                <p class="text-muted">Last-In First-Out Stack powering Undo Cancellations</p>
+                            </div>
+                            <button class="btn btn-warning" id="btn-stack-undo">↩️ Pop & Undo Last</button>
+                        </div>
+                        <div class="dsa-stream vertical-stack" id="stack-stream">
+                            <!-- Stack Nodes rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: LIVE DSA INSPECTOR -->
+            <section id="dsa-tab" class="tab-content">
+                <div class="dsa-dashboard">
+                    <!-- BST Visualizer -->
+                    <div class="glass-card full-width">
+                        <div class="card-header">
+                            <h2>1. Binary Search Tree (BST) Visualizer</h2>
+                            <p class="text-muted">Tree nodes ordered by Movie ID. Left child &lt; Parent &lt; Right child.</p>
+                        </div>
+                        <div class="tree-container" id="bst-tree-render">
+                            <!-- BST Tree rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="dual-panel mt-4">
+                        <!-- Hash Map Visualizer -->
+                        <div class="glass-card">
+                            <h3>2. Hash Map (O(1) Direct Lookup)</h3>
+                            <p class="text-muted">ID &rarr; Movie Pointer Mapping</p>
+                            <div class="hashmap-grid" id="hashmap-render">
+                                <!-- Hashmap items -->
+                            </div>
+                        </div>
+
+                        <!-- Customer Linked List Visualizer -->
+                        <div class="glass-card">
+                            <h3>3. Customer Singly Linked List</h3>
+                            <p class="text-muted">Head Pointer &rarr; Node &rarr; Node &rarr; null</p>
+                            <div class="linkedlist-container" id="linkedlist-render">
+                                <!-- LinkedList items -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: ADMIN & REVENUE -->
+            <section id="admin-tab" class="tab-content">
+                <div class="admin-grid">
+                    <!-- Metrics Cards -->
+                    <div class="metric-card glass-card">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Revenue</span>
+                            <h2 id="metric-revenue">$0.00</h2>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <div class="metric-icon">🎟️</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Tickets Sold</span>
+                            <h2 id="metric-tickets">0</h2>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <div class="metric-icon">🎬</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Movies</span>
+                            <h2 id="metric-movies">0</h2>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <div class="metric-icon">👥</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Registered Customers</span>
+                            <h2 id="metric-customers">0</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Action Header -->
+                <div class="card-header mt-4 glass-card">
+                    <h2>Movie Inventory Management</h2>
+                    <button class="btn btn-primary" id="btn-open-add-movie-modal">+ Add New Movie</button>
+                </div>
+
+                <div class="glass-card mt-3">
+                    <h3>Movie Occupancy & Seat Reports</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Movie Title</th>
+                                    <th>Showtime</th>
+                                    <th>Available Seats</th>
+                                    <th>Occupancy %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-occupancy-body">
+                                <!-- Occupancy reports -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- TICKET PRINT MODAL -->
+    <div class="modal-backdrop" id="ticket-modal">
+        <div class="modal-card ticket-pass-modal">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <div class="ticket-pass" id="printable-ticket">
+                <div class="ticket-header">
+                    <h3>MOVIE ADMIT ONE PASS</h3>
+                    <span class="ticket-id-badge" id="ticket-pass-id">BK1001</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="ticket-row">
+                        <span class="t-label">Movie:</span>
+                        <strong class="t-val" id="ticket-pass-movie">Inception</strong>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="t-label">Customer:</span>
+                        <span class="t-val" id="ticket-pass-customer">John Doe</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="t-label">Showtime:</span>
+                        <span class="t-val" id="ticket-pass-time">10:00 AM</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="t-label">Seats:</span>
+                        <strong class="t-val seats-highlight" id="ticket-pass-seats">A1, A2</strong>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="t-label">Total Paid:</span>
+                        <span class="t-val" id="ticket-pass-amount">$25.00</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="t-label">Date Issued:</span>
+                        <span class="t-val" id="ticket-pass-date">2026-08-04</span>
+                    </div>
+                </div>
+                <div class="ticket-barcode">
+                    ||| | |||| || ||| |||| | ||
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print Pass</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD MOVIE MODAL -->
+    <div class="modal-backdrop" id="add-movie-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="add-modal-close-btn">&times;</button>
+            <h2>Add New Movie</h2>
+            <form id="add-movie-form">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="add-title" required placeholder="Movie Title">
+                </div>
+                <div class="form-group">
+                    <label>Genre</label>
+                    <input type="text" id="add-genre" required placeholder="Sci-Fi / Action / Comedy">
+                </div>
+                <div class="form-group">
+                    <label>Duration (mins)</label>
+                    <input type="number" id="add-duration" required placeholder="120">
+                </div>
+                <div class="form-group">
+                    <label>Ticket Price ($)</label>
+                    <input type="number" step="0.5" id="add-price" required placeholder="12.50">
+                </div>
+                <div class="form-group">
+                    <label>Showtimes (Comma Separated)</label>
+                    <input type="text" id="add-timings" required placeholder="10:00 AM, 02:00 PM, 06:00 PM">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Add to BST Inventory</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

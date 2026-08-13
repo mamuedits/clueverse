@@ -57,3 +57,43 @@ export interface Room {
   votes: Record<string, string>; // voterId -> targetPlayerId
   winner: 'CIVILIANS' | 'IMPOSTERS' | null;
 }
+
+export type OfflinePhase = 
+  | 'SETUP' 
+  | 'LOBBY'
+  | 'REVEAL_ROLES' 
+  | 'DISCUSSION' 
+  | 'VOTING' 
+  | 'RESULTS';
+
+export interface OfflinePlayer {
+  id: string;
+  name: string;
+  role?: PlayerRole;
+  secretWord?: string;
+  isEliminated?: boolean;
+  score?: number;
+}
+
+export interface OfflineGameSettings {
+  numPlayers: number;
+  numImposters: number;
+  category: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  timerEnabled: boolean;
+  timerDuration: number; // in seconds: 30, 60, 90, 120, 180
+}
+
+export interface OfflineGameState {
+  phase: OfflinePhase;
+  settings: OfflineGameSettings;
+  players: OfflinePlayer[];
+  currentRound: number;
+  wordPair: WordPair | null;
+  votes: Record<string, string>; // voterId -> targetPlayerId
+  eliminatedPlayerId?: string | null;
+  winner: 'CIVILIANS' | 'IMPOSTERS' | null;
+  scores: Record<string, number>; // playerId -> total wins/score
+}
+
+

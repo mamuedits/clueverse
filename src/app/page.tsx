@@ -8,12 +8,15 @@ import { GameView } from '@/components/GameView';
 import { Voting } from '@/components/Voting';
 import { Results } from '@/components/Results';
 import { Chat } from '@/components/Chat';
+import { OfflineContainer } from '@/components/offline/OfflineContainer';
 import { getSocket } from '@/lib/socket';
 import { soundManager } from '@/lib/audio';
 import { Room, Player } from '@/lib/types';
 import { MessageSquare, X, Trophy } from 'lucide-react';
 
 export default function Home() {
+  const [appMode, setAppMode] = useState<'ONLINE' | 'OFFLINE'>('ONLINE');
+  const [isOfflineActive, setIsOfflineActive] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [room, setRoom] = useState<Room | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
@@ -240,8 +243,20 @@ export default function Home() {
           </div>
         )}
 
-        {!room || !currentPlayer ? (
-          <Landing onCreateRoom={handleCreateRoom} onJoinRoom={handleJoinRoom} error={error} />
+        {appMode === 'OFFLINE' && isOfflineActive ? (
+          <OfflineContainer onBackToHome={() => setIsOfflineActive(false)} />
+        ) : !room || !currentPlayer ? (
+          <Landing
+            appMode={appMode}
+            onModeChange={(mode) => {
+              setAppMode(mode);
+              setIsOfflineActive(false);
+            }}
+            onCreateRoom={handleCreateRoom}
+            onJoinRoom={handleJoinRoom}
+            onStartOfflineGame={() => setIsOfflineActive(true)}
+            error={error}
+          />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             {/* Left 2 Columns: Game Views (Lobby / Game / Voting / Results) */}
