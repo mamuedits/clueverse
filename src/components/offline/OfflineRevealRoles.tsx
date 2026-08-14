@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Eye, EyeOff, CheckCircle2, ArrowRight, Lock, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, ArrowLeft, Lock } from 'lucide-react';
 import { OfflinePlayer, WordPair } from '@/lib/types';
 import { soundManager } from '@/lib/audio';
 
@@ -125,66 +125,28 @@ export const OfflineRevealRoles: React.FC<OfflineRevealRolesProps> = ({
               animate={{ rotateY: 0, opacity: 1 }}
               exit={{ rotateY: -90, opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className={`glass-panel p-8 sm:p-10 rounded-3xl border shadow-2xl flex flex-col items-center text-center space-y-6 ${
-                currentPlayer.role === 'IMPOSTER'
-                  ? 'border-accent-rose/40 bg-accent-rose/5'
-                  : 'border-accent-cyan/40 bg-accent-cyan/5'
-              }`}
+              className="glass-panel p-8 sm:p-10 rounded-3xl border border-accent-cyan/40 bg-accent-cyan/5 shadow-2xl flex flex-col items-center text-center space-y-6"
             >
-              {currentPlayer.role === 'IMPOSTER' ? (
-                /* Imposter Reveal */
-                <>
-                  <div className="w-20 h-20 rounded-full bg-accent-rose/20 border border-accent-rose/40 flex items-center justify-center shadow-lg shadow-accent-rose/20">
-                    <span className="text-4xl">🕵️</span>
-                  </div>
+              <div className="w-20 h-20 rounded-full bg-accent-cyan/20 border border-accent-cyan/40 flex items-center justify-center shadow-lg shadow-accent-cyan/20">
+                <span className="text-4xl">🔑</span>
+              </div>
 
-                  <div className="space-y-3 w-full">
-                    <span className="px-3 py-1 rounded-full bg-accent-rose/20 border border-accent-rose/40 text-accent-rose font-black text-xs uppercase tracking-widest inline-block">
-                      Category: {wordPair.category}
-                    </span>
-                    <h2 className="text-2xl sm:text-3xl font-black text-accent-rose tracking-wide">
-                      YOU ARE THE IMPOSTER
-                    </h2>
-                    
-                    <div className="bg-surface border border-accent-rose/30 rounded-2xl px-6 py-3 mt-2">
-                      <p className="text-[10px] font-extrabold uppercase tracking-widest text-accent-rose/80 mb-1">
-                        YOUR IMPOSTER WORD
-                      </p>
-                      <h1 className="text-2xl sm:text-3xl font-black text-white tracking-wider">
-                        {currentPlayer.secretWord}
-                      </h1>
-                    </div>
-
-                    <p className="text-xs text-gray-300 leading-relaxed max-w-xs mx-auto">
-                      Use your imposter word to bluff and sound like a civilian without getting caught!
-                    </p>
-                  </div>
-                </>
-              ) : (
-                /* Civilian Reveal */
-                <>
-                  <div className="w-20 h-20 rounded-full bg-accent-cyan/20 border border-accent-cyan/40 flex items-center justify-center shadow-lg shadow-accent-cyan/20">
-                    <span className="text-4xl">🔑</span>
-                  </div>
-
-                  <div className="space-y-3 w-full">
-                    <span className="px-3 py-1 rounded-full bg-accent-cyan/20 border border-accent-cyan/40 text-accent-cyan font-black text-xs uppercase tracking-widest inline-block">
-                      Category: {wordPair.category}
-                    </span>
-                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400">
-                      SECRET CIVILIAN WORD
-                    </p>
-                    <div className="bg-surface border border-accent-cyan/30 rounded-2xl px-6 py-4">
-                      <h1 className="text-3xl sm:text-4xl font-black text-white tracking-wider">
-                        {currentPlayer.secretWord}
-                      </h1>
-                    </div>
-                    <p className="text-xs text-gray-400 max-w-xs mx-auto">
-                      Keep your secret word safe. Give clever clues to spot the imposter!
-                    </p>
-                  </div>
-                </>
-              )}
+              <div className="space-y-3 w-full">
+                <span className="px-3 py-1 rounded-full bg-accent-cyan/20 border border-accent-cyan/40 text-accent-cyan font-black text-xs uppercase tracking-widest inline-block">
+                  Category: {wordPair.category}
+                </span>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                  YOUR SECRET WORD
+                </p>
+                <div className="bg-surface border border-accent-cyan/30 rounded-2xl px-6 py-4">
+                  <h1 className="text-3xl sm:text-4xl font-black text-white tracking-wider">
+                    {currentPlayer.secretWord}
+                  </h1>
+                </div>
+                <p className="text-xs text-gray-400 max-w-xs mx-auto">
+                  Keep your secret word safe. Give clever clues to spot who has a different word!
+                </p>
+              </div>
 
               <button
                 type="button"
@@ -203,3 +165,4 @@ export const OfflineRevealRoles: React.FC<OfflineRevealRolesProps> = ({
     </div>
   );
 };
+
