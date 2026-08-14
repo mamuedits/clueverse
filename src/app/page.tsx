@@ -9,6 +9,7 @@ import { Voting } from '@/components/Voting';
 import { Results } from '@/components/Results';
 import { Chat } from '@/components/Chat';
 import { OfflineContainer } from '@/components/offline/OfflineContainer';
+import { OfflineLeaderboardModal } from '@/components/offline/OfflineLeaderboardModal';
 import { getSocket } from '@/lib/socket';
 import { soundManager } from '@/lib/audio';
 import { Room, Player } from '@/lib/types';
@@ -17,6 +18,7 @@ import { MessageSquare, X, Trophy } from 'lucide-react';
 export default function Home() {
   const [appMode, setAppMode] = useState<'ONLINE' | 'OFFLINE'>('ONLINE');
   const [isOfflineActive, setIsOfflineActive] = useState(false);
+  const [isOfflineLeaderboardOpen, setIsOfflineLeaderboardOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [room, setRoom] = useState<Room | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
@@ -255,6 +257,7 @@ export default function Home() {
             onCreateRoom={handleCreateRoom}
             onJoinRoom={handleJoinRoom}
             onStartOfflineGame={() => setIsOfflineActive(true)}
+            onOpenOfflineLeaderboard={() => setIsOfflineLeaderboardOpen(true)}
             error={error}
           />
         ) : (
@@ -326,6 +329,11 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <OfflineLeaderboardModal
+        isOpen={isOfflineLeaderboardOpen}
+        onClose={() => setIsOfflineLeaderboardOpen(false)}
+      />
     </div>
   );
 }

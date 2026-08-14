@@ -10,12 +10,14 @@ import {
 } from '@/lib/types';
 import { getFilteredWordPair } from '@/lib/aiWords';
 import { generateOfflineRoles, evaluateOfflineWin } from '@/lib/gameLogic';
+import { updateOfflineLeaderboard } from '@/lib/offlineLeaderboard';
 import { OfflineSetup } from './OfflineSetup';
 import { OfflineLobby } from './OfflineLobby';
 import { OfflineRevealRoles } from './OfflineRevealRoles';
 import { OfflineDiscussion } from './OfflineDiscussion';
 import { OfflineVoting } from './OfflineVoting';
 import { OfflineResults } from './OfflineResults';
+import { OfflineLeaderboardModal } from './OfflineLeaderboardModal';
 
 interface OfflineContainerProps {
   onBackToHome: () => void;
@@ -42,6 +44,8 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
     winner: null,
     scores: {},
   });
+
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
 
   // 1. Save Setup -> Go to Lobby
   const handleContinueFromSetup = (newSettings: OfflineGameSettings) => {
@@ -108,10 +112,12 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
       updatedPlayers.forEach((p) => {
         if (p.role === 'CIVILIAN') updatedScores[p.id] = (updatedScores[p.id] || 0) + 1;
       });
+      updateOfflineLeaderboard(updatedPlayers, 'CIVILIANS');
     } else if (winResult === 'IMPOSTERS') {
       updatedPlayers.forEach((p) => {
         if (p.role === 'IMPOSTER') updatedScores[p.id] = (updatedScores[p.id] || 0) + 1;
       });
+      updateOfflineLeaderboard(updatedPlayers, 'IMPOSTERS');
     }
 
     setGameState((prev) => ({
@@ -155,6 +161,13 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
     }));
   };
 
+  const handleResetSessionScores = () => {
+    setGameState((prev) => ({
+      ...prev,
+      scores: {},
+    }));
+  };
+
   const eliminatedPlayer = gameState.players.find((p) => p.id === gameState.eliminatedPlayerId);
 
   return (
@@ -166,6 +179,7 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
             initialSettings={gameState.settings}
             onContinue={handleContinueFromSetup}
             onBack={onBackToHome}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
           />
         )}
 
@@ -178,6 +192,7 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
             onStartRound={handleStartRound}
             onOpenSettings={() => setGameState((prev) => ({ ...prev, phase: 'SETUP' }))}
             onBackToMenu={onBackToHome}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
           />
         )}
 
@@ -221,9 +236,19 @@ export const OfflineContainer: React.FC<OfflineContainerProps> = ({ onBackToHome
             gameWinner={gameState.winner}
             onNextRound={handleNextRound}
             onBackToLobby={handleBackToLobby}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
           />
         )}
       </AnimatePresence>
+
+      <OfflineLeaderboardModal
+        isOpen={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
+        sessionPlayers={gameState.players}
+        sessionScores={gameState.scores}
+        onResetSessionScores={handleResetSessionScores}
+      />
     </div>
   );
 };
+

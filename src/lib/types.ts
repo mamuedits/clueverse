@@ -96,4 +96,14 @@ export interface OfflineGameState {
   scores: Record<string, number>; // playerId -> total wins/score
 }
 
+export interface OfflinePlayerStats {
+  name: string;
+  totalWins: number;
+  civilianWins: number;
+  imposterWins: number;
+  roundsPlayed: number;
+  lastPlayed: string;
+}
+
+
 

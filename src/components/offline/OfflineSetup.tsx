@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, ShieldAlert, Grid, Gauge, Timer, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Users, ShieldAlert, Grid, Gauge, Timer, ArrowLeft, ArrowRight, Trophy } from 'lucide-react';
 import { OfflineGameSettings } from '@/lib/types';
 import { CATEGORIES } from '@/lib/aiWords';
 
@@ -10,9 +10,15 @@ interface OfflineSetupProps {
   initialSettings: OfflineGameSettings;
   onContinue: (settings: OfflineGameSettings) => void;
   onBack: () => void;
+  onOpenLeaderboard?: () => void;
 }
 
-export const OfflineSetup: React.FC<OfflineSetupProps> = ({ initialSettings, onContinue, onBack }) => {
+export const OfflineSetup: React.FC<OfflineSetupProps> = ({
+  initialSettings,
+  onContinue,
+  onBack,
+  onOpenLeaderboard,
+}) => {
   const [settings, setSettings] = useState<OfflineGameSettings>(initialSettings);
 
   const handlePlayersChange = (delta: number) => {
@@ -63,7 +69,19 @@ export const OfflineSetup: React.FC<OfflineSetupProps> = ({ initialSettings, onC
             <h2 className="text-xl sm:text-2xl font-black text-white gradient-text">Game Setup</h2>
             <p className="text-xs text-gray-400">Offline Party Mode Settings</p>
           </div>
-          <div className="w-12" /> {/* Spacer */}
+          {onOpenLeaderboard ? (
+            <button
+              type="button"
+              onClick={onOpenLeaderboard}
+              className="p-2 rounded-xl bg-accent-amber/10 hover:bg-accent-amber/20 text-accent-amber border border-accent-amber/30 transition-colors flex items-center gap-1.5 text-xs font-bold"
+              title="View Leaderboard"
+            >
+              <Trophy className="w-4 h-4 text-accent-amber" />
+              <span className="hidden sm:inline">Leaderboard</span>
+            </button>
+          ) : (
+            <div className="w-12" />
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldAlert, ShieldCheck, RotateCcw, Home, ArrowLeft } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, RotateCcw, Home, ArrowLeft, Trophy } from 'lucide-react';
 import { OfflinePlayer, WordPair } from '@/lib/types';
 
 interface OfflineResultsProps {
@@ -13,6 +13,7 @@ interface OfflineResultsProps {
   gameWinner: 'CIVILIANS' | 'IMPOSTERS' | null;
   onNextRound: () => void;
   onBackToLobby: () => void;
+  onOpenLeaderboard?: () => void;
 }
 
 export const OfflineResults: React.FC<OfflineResultsProps> = ({
@@ -23,6 +24,7 @@ export const OfflineResults: React.FC<OfflineResultsProps> = ({
   gameWinner,
   onNextRound,
   onBackToLobby,
+  onOpenLeaderboard,
 }) => {
   const isImposter = eliminatedPlayer?.role === 'IMPOSTER';
   const remainingPlayers = players.filter((p) => !p.isEliminated);
@@ -43,6 +45,16 @@ export const OfflineResults: React.FC<OfflineResultsProps> = ({
           <ArrowLeft className="w-4 h-4 text-accent-cyan" />
           <span>Back to Lobby</span>
         </button>
+
+        {onOpenLeaderboard && (
+          <button
+            onClick={onOpenLeaderboard}
+            className="flex items-center gap-1.5 text-xs font-bold text-accent-amber hover:text-white transition-colors glass-panel px-3 py-1.5 rounded-xl border border-accent-amber/30 bg-accent-amber/10"
+          >
+            <Trophy className="w-4 h-4 text-accent-amber" />
+            <span>Leaderboard</span>
+          </button>
+        )}
       </div>
 
       <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-primary-500/30 shadow-2xl space-y-6 text-center">

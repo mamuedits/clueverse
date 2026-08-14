@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlusCircle, LogIn, User, Users, ShieldAlert, Sparkles, ArrowRight, Smartphone, Gamepad2, Globe } from 'lucide-react';
+import { PlusCircle, LogIn, User, Users, ShieldAlert, Sparkles, ArrowRight, Smartphone, Gamepad2, Globe, Trophy } from 'lucide-react';
 
 interface LandingProps {
   appMode: 'ONLINE' | 'OFFLINE';
@@ -10,6 +10,7 @@ interface LandingProps {
   onCreateRoom: (playerName: string, maxPlayers: number, numImposters: number) => void;
   onJoinRoom: (playerName: string, roomCode: string) => void;
   onStartOfflineGame: () => void;
+  onOpenOfflineLeaderboard?: () => void;
   error?: string | null;
 }
 
@@ -19,6 +20,7 @@ export const Landing: React.FC<LandingProps> = ({
   onCreateRoom,
   onJoinRoom,
   onStartOfflineGame,
+  onOpenOfflineLeaderboard,
   error,
 }) => {
   const [mode, setMode] = useState<'SELECT' | 'CREATE' | 'JOIN'>('SELECT');
@@ -142,13 +144,26 @@ export const Landing: React.FC<LandingProps> = ({
                 <p className="text-sm text-gray-300">Play together using one phone.</p>
               </div>
 
-              <button
-                onClick={onStartOfflineGame}
-                className="w-full py-4 rounded-2xl font-extrabold text-base text-white bg-gradient-to-r from-accent-cyan via-primary-500 to-accent-blue shadow-xl shadow-accent-cyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-              >
-                <span>Start Game</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <div className="w-full space-y-3">
+                <button
+                  onClick={onStartOfflineGame}
+                  className="w-full py-4 rounded-2xl font-extrabold text-base text-white bg-gradient-to-r from-accent-cyan via-primary-500 to-accent-blue shadow-xl shadow-accent-cyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Start Game</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+
+                {onOpenOfflineLeaderboard && (
+                  <button
+                    type="button"
+                    onClick={onOpenOfflineLeaderboard}
+                    className="w-full py-3 rounded-2xl font-bold text-sm text-accent-amber bg-accent-amber/10 border border-accent-amber/30 hover:bg-accent-amber/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Trophy className="w-4 h-4 text-accent-amber" />
+                    <span>View Offline Leaderboard</span>
+                  </button>
+                )}
+              </div>
             </motion.div>
           ) : (
             /* Online Mode Cards */

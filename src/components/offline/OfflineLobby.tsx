@@ -12,6 +12,7 @@ interface OfflineLobbyProps {
   onStartRound: (players: OfflinePlayer[]) => void;
   onOpenSettings: () => void;
   onBackToMenu: () => void;
+  onOpenLeaderboard?: () => void;
 }
 
 export const OfflineLobby: React.FC<OfflineLobbyProps> = ({
@@ -21,6 +22,7 @@ export const OfflineLobby: React.FC<OfflineLobbyProps> = ({
   onStartRound,
   onOpenSettings,
   onBackToMenu,
+  onOpenLeaderboard,
 }) => {
   const [players, setPlayers] = useState<OfflinePlayer[]>(() => {
     if (initialPlayers.length >= 3) return initialPlayers;
@@ -110,14 +112,26 @@ export const OfflineLobby: React.FC<OfflineLobbyProps> = ({
             <h2 className="text-2xl sm:text-3xl font-black text-white gradient-text">Offline Lobby</h2>
             <p className="text-xs text-gray-400">Play together on one device</p>
           </div>
-          <button
-            onClick={onOpenSettings}
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-bold"
-            title="Edit Game Settings"
-          >
-            <Settings className="w-4 h-4 text-accent-cyan" />
-            <span className="hidden sm:inline">Settings</span>
-          </button>
+          <div className="flex items-center gap-2">
+            {onOpenLeaderboard && (
+              <button
+                onClick={onOpenLeaderboard}
+                className="p-2 rounded-xl bg-accent-amber/10 hover:bg-accent-amber/20 text-accent-amber border border-accent-amber/30 transition-colors flex items-center gap-1.5 text-xs font-bold"
+                title="View Offline Leaderboard"
+              >
+                <Trophy className="w-4 h-4 text-accent-amber" />
+                <span className="hidden sm:inline">Leaderboard</span>
+              </button>
+            )}
+            <button
+              onClick={onOpenSettings}
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-bold"
+              title="Edit Game Settings"
+            >
+              <Settings className="w-4 h-4 text-accent-cyan" />
+              <span className="hidden sm:inline">Settings</span>
+            </button>
+          </div>
         </div>
 
         {/* Entered Game Setup Summary */}
